@@ -89,12 +89,6 @@ function weather_block_render_callback($attributes)
 
         $weather_data = json_decode(wp_remote_retrieve_body($weather_response));
 
-        // Debugging: Rohdaten ausgeben, um die API-Antwort zu überprüfen
-        // if (current_user_can('administrator')) {
-        //     echo '<pre>API-URL: ' . esc_html($weather_url) . '</pre>';
-        //     echo '<pre>API-Daten: ' . print_r($weather_data, true) . '</pre>';
-        // }
-
         if (isset($weather_data->cod) && $weather_data->cod == 401) {
             return '<p>Ungültiger API-Schlüssel. Bitte überprüfen Sie Ihren OpenWeatherMap API-Schlüssel in den Blockeinstellungen.</p>';
         }
@@ -120,7 +114,7 @@ function weather_block_render_callback($attributes)
         $date = date('Y-m-d', $forecast->dt);
         // Skip today's data for forecast section if present
         if ($date === $today) {
-            continue g;
+            continue;
         }
         if (!isset($daily_forecasts[$date])) {
             $daily_forecasts[$date] = $forecast;
@@ -147,16 +141,16 @@ function weather_block_render_callback($attributes)
     $output .= '<div class="weather-day current-weather">';
     $output .= '<h2 class="weather-location">' . esc_html($location) . '</h2>';
     $output .= '<div class="current-weather-main">';
-    $output .= get_weather_icon($current_weather->weather[0]->icon);
+    $output .= '<div class="weather-icon-wrapper">' . get_weather_icon($current_weather->weather[0]->icon) . '</div>';
     $output .= '<div class="weather-temp-large">' . round($current_weather->main->temp) . '°</div>';
     $output .= '</div>';
     $output .= '<div class="current-weather-meta">';
-    $output .= '<div>' . esc_html($current_weather->weather[0]->description) . '</div><span>•</span>';
-    $output .= '<div>Gefühlt ' . round($current_weather->main->feels_like) . '°</div>';
+    $output .= '<div class="weather-description">' . esc_html($current_weather->weather[0]->description) . '</div><span>•</span>';
+    $output .= '<div class="weather-feels-like">Gefühlt ' . round($current_weather->main->feels_like) . '°</div>';
     $output .= '</div>';
     $output .= '</div>';
 
-    // Nächste 5 Tage
+    // Nächste 5 Tage (full API data minus "current")
     $days = array_slice($daily_forecasts, 0, 5, true); // Use all available future days
     foreach ($days as $date => $forecast) {
         $day_name = strtoupper(substr(date('D', $forecast->dt), 0, 3));
@@ -177,13 +171,18 @@ function weather_block_render_callback($attributes)
 
         $output .= '<div class="weather-day">';
         $output .= '<div class="weather-day-header">' . '<span class="weather-day-name">' . $day_name . '</span>' . ' ' . $day_number . '</div>';
-        $output .= '<div class="weather-main-info">';
+        $output .= '<div class="weather-default-info">';
         $output .= get_weather_icon($icon);
         $output .= '<div class="weather-temp-range">';
         $output .= get_temp_icon('max') . '<span class="temp-max">' . round($temps[$date]['max']) . '°</span>';
         $output .= get_temp_icon('min') . '<span class="temp-min">' . round($temps[$date]['min']) . '°</span>';
         $output .= '</div>';
-        $output .= '<div class="weather-precipitation">Regen: ' . round($pops[$date] * 100) . '%</div>';
+        $output .= '<div class="rain-precipitation">Regen: ' . round($pops[$date] * 100) . '%</div>';
+        $output .= '</div>';
+        $output .= '<div class="weather-extra-info">';
+        $output .= '<div class="weather-humidity">Luftfeuchtigkeit: ' . esc_html($chosen_forecast->main->humidity) . '%</div>';
+        $output .= '<div class="weather-wind">Wind: ' . round($chosen_forecast->wind->speed) . ' m/s</div>';
+        $output .= '<div class="weather-pressure">Luftdruck: ' . esc_html($chosen_forecast->main->pressure) . ' hPa</div>';
         $output .= '</div>';
         $output .= '</div>';
     }
