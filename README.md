@@ -19,9 +19,9 @@ Ein WordPress-Plugin, das einen Wettervorhersage-Block für den Gutenberg-Editor
 
 1. Lade das Plugin als ZIP-Datei herunter oder klone das Repository:
    ```
-   git clone https://github.com/[dein-username]/wettervorhersage-block.git
+   git clone https://github.com/ffabbr/weather-block.git
    ```
-2. Kopiere den Ordner `wettervorhersage-block` in das Verzeichnis `wp-content/plugins/` deiner WordPress-Installation.
+2. Kopiere den Ordner `weather-forcast-block` in das Verzeichnis `wp-content/plugins/` deiner WordPress-Installation.
 3. Aktiviere das Plugin im WordPress-Adminbereich unter **Plugins**.
 4. Füge den „Wettervorhersage-Block“ in einem Beitrag oder einer Seite über den Gutenberg-Editor hinzu.
 5. Gib deinen OpenWeatherMap-API-Schlüssel und den gewünschten Standort in den Blockeinstellungen ein.
@@ -33,10 +33,10 @@ Ein WordPress-Plugin, das einen Wettervorhersage-Block für den Gutenberg-Editor
 
 ## Dateistruktur
 
-- `wettervorhersage-block.php`: Hauptdatei des Plugins mit PHP-Logik und Serverseitigem Rendering.
+- `main.php`: Hauptdatei des Plugins mit PHP-Logik und Serverseitigem Rendering.
 - `block.js`: JavaScript für den Block-Editor.
 - `style.css`: CSS-Styling für Frontend und Editor.
-- `icons/`: Verzeichnis mit SVG-Wettericons (z. B. `01d.svg`, `02n.svg`).
+- `icons/`: Verzeichnis mit SVG-Wettericons (z. B. `01.svg`, `02.svg`).
 
 ## Entwicklung
 
@@ -58,7 +58,7 @@ Das Plugin verwendet die [OpenWeatherMap 5-Tage-Vorhersage-API](https://openweat
 
 - **„Ungültiger API-Schlüssel“**: Überprüfe deinen API-Schlüssel in den Blockeinstellungen.
 - **„Keine Wetterdaten verfügbar“**: Stelle sicher, dass der Standort korrekt ist und die API erreichbar ist.
-- **Debugging**: Entkommentiere die Debugging-Ausgabe in `wettervorhersage-block.php`, um API-URLs und Rohdaten anzuzeigen (nur für Administratoren sichtbar).
+- **Debugging**: Entkommentiere die Debugging-Ausgabe in `main.php`, um API-URLs und Rohdaten anzuzeigen (nur für Administratoren sichtbar).
 
 ## Lizenz
 
