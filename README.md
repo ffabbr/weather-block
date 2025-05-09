@@ -71,7 +71,3 @@ Beiträge sind willkommen! Erstelle einen Fork, bearbeite den Code und reiche ei
 ## Autor
 
 Entwickelt von CEATE.
-
----
-
-This README provides all essential information for users and developers, including installation instructions, configuration details, and a basic structure for contributions. You can customize it further by adding your GitHub username, specific contribution guidelines, or additional sections like „Bekannte Probleme“ if needed. Let me know if you’d like adjustments!
